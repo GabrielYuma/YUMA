@@ -1,0 +1,26 @@
+:root{
+    --main-color: #ffff;
+}
+
+H3{
+    padding: 20px;
+    background-color: var(--main-color);
+}
+
+body{
+    text-align: center;
+    display: flex;
+    align-items: center;  
+    background: #efff;  
+}
+
+div {
+    display: grid;
+    align-items: center;
+}
+
+.cores {
+    width: 120px;
+    height: 120px;  
+    margin: 15px;
+}

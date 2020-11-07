@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="estilo.css">
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Color!</title>
+    <style>
+        section {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        div {
+            width: 200px;
+            margin: 20px;
+            height: 200px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h3></h3>
+    <section>
+        <div class="cores" id="cor0"></div>
+        <div class="cores" id="cor1"></div>
+        <div class="cores" id="cor2"></div>
+        <div class="cores" id="cor3"></div>
+        <div class="cores" id="cor4"></div>
+        <div class="cores" id="cor5"></div>
+        <div class="cores" id="cor6"></div>
+        <div class="cores" id="cor7"></div>
+        <div class="cores" id="cor8"></div>
+        <div class="cores" id="cor9"></div>
+    </section>
+
+    <script src="index.js"></script>
+    <script>
+
+        var divs = document.querySelectorAll("div");
+        var h3 = document.querySelector("h3");
+        var auxH3 = [];
+        var tentativas = 3;
+        var x = 0;
+        const root = document.documentElement;
+        var name = prompt("Please, insert your name!");
+
+        if(name == null){
+            name = "Unknown";
+        }
+        h3.innerHTML = " Let's play a game, " + name + "? \n Look at all these colors! I'm gonna pick one and you have to guess which one I chose! <br/><br/> \n  Here we go! Which color did I choose?";
+
+        for (let i = 0; i < divs.length; i++) {
+            auxH3.push(colorsSorted[i].nome);
+            divs[i].style.backgroundColor = "#" + colorsSorted[i].hex;
+            divs[i].innerText = colorsSorted[i].nome
+            divs[i].style.color = checarCor(colorsSorted[i].hex)
+
+            divs[i].addEventListener("click", function (e) {
+                if (tentativas == -1) {
+                    if (confirm("So... you wanna play again, " + name +"?")) {
+                        alert("Get ready!")
+                        location.reload()
+                    } else {
+                        alert("Okay. Goodbye!~")
+                    }
+                } else {
+                    if (divs[i].innerText == colorsSorted[randomIndex].nome) {
+                        alert("Congratulations, "+ name +"! You won!")
+                        root.style.setProperty('--main-color', '#' + colorsSorted[i].hex)
+                        tentativas = -1;
+                    } else {
+                        tentativas--;
+
+                        if (tentativas != 0) {
+                            alert(" Wrong Color, "+ name +"! You have " + (tentativas) + " chance(s) left!\n")
+
+                            if (confirm("Want a hint?")) {
+                                if (colorsSorted[randomIndex].nome.charCodeAt(0) == divs[i].innerText.charCodeAt(0)) {
+                                    alert("The first letter of both colors are the same!");
+                                } else if (colorsSorted[randomIndex].nome.charCodeAt(0) > divs[i].innerText.charCodeAt(0)) {
+                                    alert("The first letter is alphabetically lower than the one of the color you chose!");
+                                } else {
+                                    alert("The first letter is alphabetically higher than the one of the color you chose!");
+                                }
+                                if (tentativas == 1) {
+                                    var ale = Math.random() * 2;
+                                    var letra = colorsSorted[randomIndex].nome.charAt(ale);
+                                    alert("The right color has the letter '" + letra.toUpperCase() + "' on its name!");
+                                }
+
+                            }
+                        }
+                    }
+
+                    if (tentativas == 0) {
+                        if (confirm("Sorry, "+name+", but you lost!\nThe answer was '" + colorsSorted[randomIndex].nome + "'\n Wanna try again?")) {
+                            location.reload()
+                        } else {
+                            alert("Cya!")
+                            tentativas = -1;
+                        }
+                    }
+                }
+            })
+
+        }
+
+
+    </script>
+</body>
+
+</html>
